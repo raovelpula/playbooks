@@ -1,0 +1,31 @@
+---
+- hosts: all
+  gather_facts: false
+  become: yes
+#  become_method: su
+#  become_user: sysadmin
+  tasks:
+  - name: passing dynamic variable file
+    include_vars: secrets.yaml
+    tags: task1
+  - name: deploy sample file to remote machines
+    copy:
+      src: "{{ creds1['src_path'] }}" 
+      dest: "{{ creds1['dest_path'] }}"
+    register: value
+    tags: task2
+  - debug: var=value
+#  - debug: msg="files are copied successfully"
+     
+  - name: save output to config backup directory
+    copy:
+      content: " {{ value }}"
+      dest: /home/sysadmin/ansible_output/out_{{ inventory_hostname }}.txt
+    tags: task4
+    delegate_to: localhost
+  - name: execute task in different machine
+    become: yes
+    become_user: "{{ creds['user2'] }}"
+    shell: whoami
+    when: inventory_hostname in groups['web']
+    tags: different1
