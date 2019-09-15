@@ -5,9 +5,6 @@
 #  become_method: su
 #  become_user: sysadmin
   tasks:
-  - name: passing dynamic variable file
-    include_vars: secrets.yaml
-    tags: task1
   - name: deploy sample file to remote machines
     copy:
       src: "{{ creds1['src_path'] }}" 
