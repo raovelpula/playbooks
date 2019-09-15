@@ -1,0 +1,21 @@
+---
+- hosts: all
+  gather_facts: false
+  become: yes
+#  become_method: su
+#  become_user: sysadmin
+  tasks:
+  - name: Move sh file to remote
+    copy:
+      src: /home/sysadmin/admin.conf
+      dest: /home/sysadmin/admin.conf
+    register: value
+  - debug: var=value
+#  - debug: msg="files are copied successfully"
+
+#  - name: save output to config backup directory
+#    copy:
+#      content: " {{ value }}"
+#      dest: /home/sysadmin/ansible_output/out_{{ inventory_hostname }}.txt
+#    delegate_to: localhost
+
