@@ -5,7 +5,11 @@
 #  become_method: su
 #  become_user: sysadmin
   tasks:
-  - name: deploy sample file to remote machines
-    copy:
-      src: /home/sysadmin/admin6 
-      dest: /home/sysadmin/admin6
+  - name: deploy sample file to refile:
+    file:
+      path: /home/sysadmin/admin6.conf
+      state: touch
+      owner: sysadmin
+      group: sysadmin
+      mode: '0644'
+    
